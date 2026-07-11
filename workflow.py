@@ -42,7 +42,7 @@ def llm_node(query:dict)-> dict:
     response = llm.invoke(query)
     return  response
 
-#def final_response(state: dict):
+
 
     messages = state["messages"]
 
