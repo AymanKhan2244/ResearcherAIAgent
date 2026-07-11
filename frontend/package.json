@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "next": "16.2.6",
+    "next.js": "^1.0.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-markdown": "^10.1.0"

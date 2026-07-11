@@ -1,0 +1,15 @@
+define user ask off topic
+  "What is Machine Learning?"
+  "Teach me Python"
+  "Write Java code"
+  "Explain recursion"
+  "Tell me a joke"
+  "Who are you?"
+  "Write an essay"
+
+define bot refuse off topic
+  "I'm a Research AI Agent. I only answer questions related to research, scientific publications, and current news."
+
+define flow
+  user ask off topic
+  bot refuse off topic

@@ -4,3 +4,5 @@ langchain_core
 ipykernel
 pydantic 
 langchain_tavily
+langgraph 
+nemoguardrails

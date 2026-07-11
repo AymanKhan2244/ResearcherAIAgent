@@ -10,5 +10,11 @@ dependencies = [
     "langchain-core>=1.3.3",
     "langchain-groq>=1.1.2",
     "langchain-tavily>=0.2.18",
+    "langgraph>=1.1.10",
     "pydantic>=2.13.4",
+]
+
+[tool.uv.workspace]
+members = [
+    "frontend",
 ]
