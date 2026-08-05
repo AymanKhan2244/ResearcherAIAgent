@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 
 type Message = {
   role: "user" | "assistant";
@@ -301,8 +302,41 @@ export default function Home() {
                     }
                   `}
                 >
-                  <div className="prose prose-invert prose-p:leading-relaxed prose-pre:bg-[#151518] prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl max-w-none break-words">
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  <div className="prose prose-invert prose-p:leading-relaxed prose-pre:bg-[#151518] prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl max-w-none break-words prose-img:rounded-xl prose-img:border prose-img:border-white/10">
+                    <ReactMarkdown
+                      components={{
+                        img: ({ src, alt, ...props }) => {
+                          return (
+                            <span className="block my-4">
+                              <a href={src} target="_blank" rel="noopener noreferrer" className="block no-underline">
+                                <span className="relative block overflow-hidden rounded-xl border border-white/10 bg-[#1A1A1E] group">
+                                  <img
+                                    src={src}
+                                    alt={alt || "Related image"}
+                                    loading="lazy"
+                                    className="w-full max-h-[300px] object-cover rounded-xl transition-transform duration-300 group-hover:scale-[1.02] !my-0 !border-0"
+                                    onError={(e) => {
+                                      const target = e.currentTarget;
+                                      const wrapper = target.closest('span.block.my-4');
+                                      if (wrapper) (wrapper as HTMLElement).style.display = 'none';
+                                    }}
+                                  />
+                                  <span className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl flex items-end p-3">
+                                    <span className="text-xs text-white/80 font-medium flex items-center gap-1.5">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                      Open image
+                                    </span>
+                                  </span>
+                                </span>
+                              </a>
+                              {alt && alt !== "Related Image" && alt !== "Related image" && (
+                                <span className="block text-xs text-gray-500 mt-2 text-center italic">{alt}</span>
+                              )}
+                            </span>
+                          );
+                        },
+                      }}
+                    >{msg.content}</ReactMarkdown>
                   </div>
                 </div>
               </div>

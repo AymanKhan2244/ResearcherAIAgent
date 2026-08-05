@@ -8,7 +8,7 @@ os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
-    max_tokens=200
+    max_tokens=1024
 )
 
 

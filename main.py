@@ -3,7 +3,7 @@ from fastapi import FastAPI
 # pyrefly: ignore [missing-import]
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from workflow import graph
+from workflow import * 
 
 app = FastAPI()
 

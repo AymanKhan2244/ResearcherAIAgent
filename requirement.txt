@@ -3,6 +3,8 @@ langchain_community
 langchain_core
 ipykernel
 pydantic 
-langchain_tavily
+langchain-tavily
 langgraph 
 nemoguardrails
+fastapi
+uvicorn
