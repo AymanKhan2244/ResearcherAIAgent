@@ -6,6 +6,9 @@ from model import llm
 from langgraph.prebuilt import tools_condition
 from guardrail import validate_query
 from langchain_tavily import TavilySearch
+from  dotenv import load_dotenv
+load_dotenv()
+
 
 
 class State(TypedDict):
@@ -17,11 +20,9 @@ class State(TypedDict):
 
 builder = StateGraph(State)
 
-tavily_api_key = "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"
 
 web_search = TavilySearch(
     max_results=5,
-    tavily_api_key=tavily_api_key,
     include_images=True
 )
 
@@ -43,7 +44,7 @@ def image_search_node(state: dict):
     try:
         search = TavilySearch(
             max_results=5,
-            tavily_api_key=tavily_api_key,
+           
             include_images=True,
             topic="news"
         )
@@ -69,7 +70,7 @@ def image_search_node(state: dict):
         if not images:
             img_search = TavilySearch(
                 max_results=5,
-                tavily_api_key=tavily_api_key,
+               
                 include_images=True,
                 topic="general"
             )
