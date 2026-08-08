@@ -4,6 +4,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from workflow import * 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 

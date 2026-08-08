@@ -1,0 +1,12 @@
+.venv
+__pycache__
+.git
+.gitignore
+*.pyc
+*.ipynb
+frontend
+uv.lock
+.env
+README.md
+test_rails.py
+.python-version

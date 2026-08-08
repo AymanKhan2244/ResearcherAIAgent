@@ -1,10 +1,10 @@
 langchain-groq
-langchain_community 
-langchain_core
-ipykernel
-pydantic 
+langchain-community
+langchain-core
+pydantic
 langchain-tavily
-langgraph 
+langgraph
 nemoguardrails
 fastapi
 uvicorn
+python-dotenv
