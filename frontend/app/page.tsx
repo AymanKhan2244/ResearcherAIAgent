@@ -308,7 +308,7 @@ export default function Home() {
                         img: ({ src, alt, ...props }) => {
                           return (
                             <span className="block my-4">
-                              <a href={src} target="_blank" rel="noopener noreferrer" className="block no-underline">
+                              <a  href={src} target="_blank" rel="noopener noreferrer" className="block no-underline">
                                 <span className="relative block overflow-hidden rounded-xl border border-white/10 bg-[#1A1A1E] group">
                                   <img
                                     src={src}
