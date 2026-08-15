@@ -8,3 +8,4 @@ nemoguardrails
 fastapi
 uvicorn
 python-dotenv
+pytest-playwright
