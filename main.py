@@ -38,6 +38,9 @@ def chat(query: Query):
         except:
             final_message = str(response)
 
+    import re
+    final_message = re.sub(r'<think>.*?</think>', '', final_message, flags=re.DOTALL).strip()
+
     return {
         "response": final_message
     }
