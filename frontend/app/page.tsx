@@ -231,9 +231,9 @@ export default function Home() {
          SIDEBAR
          ================================================================ */}
       <nav
-        className={`glass-sidebar font-body-md text-body-md fixed left-0 top-0 h-screen w-[280px] shadow-[10px_0_30px_rgba(0,0,0,0.5)] flex flex-col p-md z-40 transition-transform duration-300 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        className={`glass-sidebar font-body-md text-body-md fixed left-4 top-4 h-[calc(100vh-32px)] rounded-[32px] w-[280px] shadow-[10px_10px_30px_rgba(0,0,0,0.5)] flex flex-col p-md z-40 transition-transform duration-300 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-[calc(100%+16px)]"
+        } md:translate-x-0 border border-outline-variant/20`}
       >
         {/* Header */}
         <div className="mb-xl flex items-center gap-sm">
@@ -371,7 +371,7 @@ export default function Home() {
       {/* ================================================================
          MAIN CONTENT
          ================================================================ */}
-      <main className="flex-1 flex flex-col md:ml-[280px] w-full relative h-screen">
+      <main className="flex-1 flex flex-col md:ml-[312px] relative h-screen pr-4">
         {/* ── Guardrail Toast ── */}
         {guardrailMsg && (
           <div className="fixed top-md left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-2xl">
@@ -579,8 +579,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Disabled bottom input */}
-            <div className="fixed bottom-0 left-0 md:left-[280px] right-0 p-margin-mobile md:p-margin-desktop bg-gradient-to-t from-background via-background/90 to-transparent z-30 pointer-events-none">
+            <div className="fixed bottom-4 left-4 md:left-[312px] right-4 p-margin-mobile md:p-margin-desktop bg-gradient-to-t from-background via-background/90 to-transparent z-30 pointer-events-none rounded-b-[32px]">
               <div className="max-w-3xl mx-auto w-full neumorphic-inset rounded-2xl p-2 flex items-center gap-2 border border-outline-variant/20 opacity-50 relative overflow-hidden">
                 <div className="absolute inset-0 bg-primary-container/5 pulse-text" />
                 <div className="w-12 h-12 rounded-xl skeuomorphic-circle flex items-center justify-center text-on-surface-variant">
