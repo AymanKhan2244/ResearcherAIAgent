@@ -270,27 +270,7 @@ export default function Home() {
             <span className="material-symbols-outlined nav-icon icon-filled">history</span>
             History
           </a>
-          <a
-            href="#"
-            className="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-primary-container/20 transition-all duration-300 active:scale-95"
-          >
-            <span className="material-symbols-outlined nav-icon">folder_special</span>
-            Collections
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-primary-container/20 transition-all duration-300 active:scale-95"
-          >
-            <span className="material-symbols-outlined nav-icon">book_2</span>
-            Library
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-primary-container/20 transition-all duration-300 active:scale-95"
-          >
-            <span className="material-symbols-outlined nav-icon">settings</span>
-            Settings
-          </a>
+
         </div>
 
         {/* Chat History */}
