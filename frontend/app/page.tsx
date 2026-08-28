@@ -148,7 +148,7 @@ export default function Home() {
     );
 
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch("https://researcheraiagent-2.onrender.com/chat/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: currentMessage }),
@@ -164,13 +164,16 @@ export default function Home() {
         botContent = data.response || "Received an empty response from the server.";
       }
 
+      /* Strip <think> tags from content if present */
+      const cleanContent = botContent.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+
       /* Guardrail detection */
       const isGuardrail =
-        botContent.includes("I'm a Research AI Agent") &&
-        botContent.includes("only answer questions related to research");
+        cleanContent.includes("I'm a Research AI Agent") &&
+        cleanContent.includes("only answer questions related to research");
 
       if (isGuardrail) {
-        setGuardrailMsg(botContent);
+        setGuardrailMsg(cleanContent);
         /* Remove the user message since it was blocked */
         setChats((prev) =>
           prev.map((chat) =>
@@ -180,11 +183,10 @@ export default function Home() {
           )
         );
       } else {
-        const botMessage: Message = { role: "assistant", content: botContent };
         setChats((prev) =>
           prev.map((chat) =>
             chat.id === currentChatId
-              ? { ...chat, messages: [...chat.messages, botMessage] }
+              ? { ...chat, messages: [...chat.messages, { role: "assistant", content: cleanContent }] }
               : chat
           )
         );
