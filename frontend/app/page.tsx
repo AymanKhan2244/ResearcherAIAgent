@@ -724,6 +724,17 @@ export default function Home() {
    ASSISTANT RESPONSE — Renders markdown as research cards
    ================================================================ */
 function AssistantResponse({ content, index }: { content: string; index: number }) {
+  /* Guard against undefined/null content from stale data */
+  if (!content) {
+    return (
+      <article className="neu-card bg-surface-container/60 backdrop-blur-md rounded-xl p-lg relative overflow-hidden group fade-up">
+        <div className="prose-tactile">
+          <p className="text-on-surface-variant italic">No content available.</p>
+        </div>
+      </article>
+    );
+  }
+
   /* Split content by ### headings to create individual cards */
   const sections = content.split(/(?=###\s)/);
 
