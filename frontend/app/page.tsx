@@ -39,7 +39,7 @@ export default function Home() {
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState("");
   const [guardrailMsg, setGuardrailMsg] = useState<string | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   /* --- Lifecycle --- */
@@ -86,6 +86,7 @@ export default function Home() {
     };
     setChats((prev) => [newChat, ...prev]);
     setCurrentChatId(newChat.id);
+    setHistoryOpen(false);
   };
 
   const deleteChat = (id: string, e: React.MouseEvent) => {
@@ -148,7 +149,7 @@ export default function Home() {
     );
 
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch("https://researcheraiagent-2.onrender.com/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: currentMessage }),
@@ -216,195 +217,229 @@ export default function Home() {
      RENDER
      ================================================================ */
   return (
-    <div className="h-screen w-full flex overflow-hidden relative">
-      {/* ── Ambient Gradient Orbs ── */}
-      <div className="ambient-orb bg-primary-container w-[400px] h-[400px] top-[-100px] left-[-100px]" />
-      <div className="ambient-orb bg-tertiary-container w-[500px] h-[500px] bottom-[10%] right-[-150px]" />
+    <div className="h-screen w-full flex overflow-hidden relative bg-background text-on-background font-body-md">
+      {/* ── Atmospheric Background Effects ── */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-noise">
+        <div className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px] animate-blob" />
+        <div className="absolute top-1/4 -right-1/4 w-[700px] h-[700px] bg-tertiary-container/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '20s' }} />
+        <div className="absolute -bottom-1/4 left-1/4 w-[900px] h-[900px] bg-secondary-container/20 rounded-full blur-[150px] animate-blob" style={{ animationDelay: '40s' }} />
+      </div>
 
-      {/* ── Mobile Overlay ── */}
-      {sidebarOpen && (
+      {/* ── Overlay for history panel ── */}
+      {historyOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/40 z-30 transition-opacity duration-300"
+          onClick={() => setHistoryOpen(false)}
         />
       )}
 
       {/* ================================================================
-         SIDEBAR
+         PILL NAV — Minimal vertical capsule (visible on desktop)
          ================================================================ */}
-      <nav
-        className={`glass-sidebar font-body-md text-body-md fixed left-4 top-4 h-[calc(100vh-32px)] rounded-[32px] w-[280px] shadow-[10px_10px_30px_rgba(0,0,0,0.5)] flex flex-col p-md z-40 transition-transform duration-300 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-[calc(100%+16px)]"
-        } md:translate-x-0 border border-outline-variant/20`}
-      >
-        {/* Header */}
-        <div className="mb-xl flex items-center gap-sm">
-          <div className="w-10 h-10 rounded-full neu-raised flex items-center justify-center bg-surface-container-high border border-outline-variant/30">
-            <span className="material-symbols-outlined text-primary text-xl nav-icon icon-filled">
-              science
+      <nav className="hidden md:flex flex-col items-center gap-lg p-md pill-nav fixed left-4 top-1/2 -translate-y-1/2 h-auto w-24 rounded-full z-40">
+        {/* Logo Orb */}
+        <div className="mb-xl flex items-center gap-sm px-base">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-tertiary-container flex items-center justify-center neu-raised">
+            <span className="material-symbols-outlined text-background icon-filled nav-icon">
+              biotech
             </span>
-          </div>
-          <div>
-            <h1 className="font-display-xl text-display-xl font-bold text-surface-tint text-xl tracking-tight">
-              Researcher AI
-            </h1>
-            <p className="text-on-surface-variant font-label-xs text-label-xs uppercase tracking-wider">
-              Precision Intelligence
-            </p>
           </div>
         </div>
 
-        {/* New Research CTA */}
+        {/* New Chat CTA */}
         <button
           onClick={createNewChat}
-          className="w-full py-sm px-md rounded-lg mb-lg btn-glossy text-primary font-label-sm text-label-sm font-semibold hover:brightness-110 transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
+          className="w-12 h-12 rounded-full bg-primary-container text-on-primary-container transition-all skeuo-btn flex items-center justify-center group"
+          title="New Research"
         >
-          <span className="material-symbols-outlined text-[18px] nav-icon">add</span>
-          New Research
+          <span className="material-symbols-outlined nav-icon group-active:scale-95 transition-transform">
+            add
+          </span>
         </button>
 
-        {/* Navigation */}
-        <div className="flex flex-col gap-sm">
-          <a
-            href="#"
-            className="flex items-center gap-sm py-sm px-sm rounded-lg text-primary font-bold border-r-2 border-primary bg-primary-container/10 hover:bg-primary-container/20 transition-all duration-300 active:scale-95"
-          >
-            <span className="material-symbols-outlined nav-icon icon-filled">history</span>
-            History
-          </a>
-
-        </div>
-
-        {/* Chat History */}
-        <div className="flex-1 overflow-y-auto mt-md space-y-1">
-          {chats.map((chat) => (
-            <div
-              key={chat.id}
-              onClick={() => {
-                setCurrentChatId(chat.id);
-                setSidebarOpen(false);
-              }}
-              className={`group flex items-center justify-between px-sm py-sm rounded-lg cursor-pointer text-label-sm font-label-sm transition-all duration-200 ${
-                currentChatId === chat.id
-                  ? "bg-primary-container/10 text-primary border-r-2 border-primary"
-                  : "text-on-surface-variant hover:bg-primary-container/10 hover:text-on-surface"
+        {/* History Toggle */}
+        <ul className="flex flex-col gap-md">
+          <li>
+            <button
+              onClick={() => setHistoryOpen(!historyOpen)}
+              className={`w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 active:scale-95 ${
+                historyOpen
+                  ? "text-primary bg-primary-container/20"
+                  : "text-on-surface-variant hover:text-on-surface hover:bg-primary-container/10"
               }`}
+              title="Chat History"
             >
-              {editingChatId === chat.id ? (
-                <div className="flex-1 pr-2">
-                  <input
-                    type="text"
-                    value={editingTitle}
-                    onChange={(e) => setEditingTitle(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") saveTitle(chat.id, e);
-                      if (e.key === "Escape") setEditingChatId(null);
-                    }}
-                    onBlur={() => saveTitle(chat.id)}
-                    autoFocus
-                    className="w-full bg-surface-container-lowest text-on-surface px-2 py-1 rounded border border-primary/50 outline-none text-xs focus:ring-1 focus:ring-primary"
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                </div>
-              ) : (
-                <>
-                  <span className="truncate flex-1">{chat.title}</span>
-                  <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0 gap-1">
-                    <button
-                      onClick={(e) => startEditing(chat, e)}
-                      className="text-outline hover:text-primary p-1 rounded hover:bg-primary-container/20 transition-colors"
-                      aria-label="Rename chat"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">edit</span>
-                    </button>
-                    <button
-                      onClick={(e) => deleteChat(chat.id, e)}
-                      className="text-outline hover:text-error p-1 rounded hover:bg-error/10 transition-colors"
-                      aria-label="Delete chat"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">delete</span>
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Footer */}
-        <div className="mt-auto border-t border-outline-variant/30 pt-md flex flex-col gap-sm">
-          <a
-            href="#"
-            className="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-primary-container/20 transition-all duration-300 active:scale-95"
-          >
-            <span className="material-symbols-outlined nav-icon">account_circle</span>
-            Profile
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-sm py-sm px-sm rounded-lg text-error hover:text-error-container hover:bg-error/10 transition-all duration-300 active:scale-95"
-          >
-            <span className="material-symbols-outlined nav-icon">logout</span>
-            Log out
-          </a>
-        </div>
+              <span className="material-symbols-outlined nav-icon">history</span>
+            </button>
+          </li>
+        </ul>
       </nav>
 
+      {/* ── Mobile Header ── */}
+      <header className="md:hidden fixed top-0 left-0 right-0 w-full z-50 glass-header flex justify-between items-center px-lg py-sm">
+        <button onClick={() => setHistoryOpen(true)} className="p-1">
+          <span className="material-symbols-outlined text-on-surface-variant">menu</span>
+        </button>
+        <div className="flex items-center gap-sm">
+          <span className="material-symbols-outlined text-primary nav-icon">biotech</span>
+          <span className="font-title-md font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary-container">
+            Researcher AI
+          </span>
+        </div>
+        <button onClick={createNewChat} className="p-1">
+          <span className="material-symbols-outlined text-on-surface-variant">add</span>
+        </button>
+      </header>
+
       {/* ================================================================
-         MAIN CONTENT
+         HISTORY SLIDE-OVER PANEL
          ================================================================ */}
-      <main className="flex-1 flex flex-col md:ml-[312px] relative h-screen pr-4">
-        {/* ── Guardrail Toast ── */}
-        {guardrailMsg && (
-          <div className="fixed top-md left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-2xl">
-            <div className="glass-panel rounded-xl p-4 flex items-start gap-4 animate-[fadeUpAnim_0.3s_ease-out]">
-              <div className="flex-shrink-0 pt-1">
-                <span className="material-symbols-outlined text-tertiary-container icon-filled">
-                  warning
-                </span>
-              </div>
-              <div className="flex-1">
-                <p className="font-label-sm text-on-surface-variant">
-                  <span className="text-on-surface font-medium block mb-1">System Guardrail</span>
-                  {guardrailMsg}
-                </p>
-              </div>
-              <button
-                onClick={() => setGuardrailMsg(null)}
-                className="flex-shrink-0 w-8 h-8 rounded-full skeuomorphic-circle flex items-center justify-center hover:opacity-80 transition-opacity"
-              >
-                <span className="material-symbols-outlined text-[18px] text-on-surface-variant">
-                  close
-                </span>
-              </button>
+      {historyOpen && (
+        <aside className="sidebar-panel fixed left-0 md:left-[112px] top-0 h-full w-[300px] z-40 flex flex-col p-md sidebar-enter">
+          {/* History Header */}
+          <div className="flex items-center justify-between mb-lg pt-4">
+            <div className="flex items-center gap-sm">
+              <span className="material-symbols-outlined text-primary nav-icon icon-filled">
+                history
+              </span>
+              <h2 className="font-title-md text-title-md text-on-surface font-semibold">
+                Research History
+              </h2>
             </div>
+            <button
+              onClick={() => setHistoryOpen(false)}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-primary-container/10 transition-all"
+            >
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
           </div>
-        )}
 
-        {/* ── Mobile Header ── */}
-        <header className="md:hidden sticky top-0 w-full z-50 glass-header flex justify-between items-center px-lg py-sm">
-          <button onClick={() => setSidebarOpen(true)} className="p-1">
-            <span className="material-symbols-outlined text-on-surface-variant">menu</span>
+          {/* New Research Button */}
+          <button
+            onClick={createNewChat}
+            className="w-full py-sm px-md rounded-lg mb-md btn-glossy text-primary font-label-sm text-label-sm font-semibold hover:brightness-110 transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
+          >
+            <span className="material-symbols-outlined text-[18px] nav-icon">add</span>
+            New Research
           </button>
-          <div className="flex items-center gap-sm">
-            <span className="material-symbols-outlined text-primary nav-icon">biotech</span>
-            <span className="font-title-md font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary-container">
-              Researcher AI
-            </span>
-          </div>
-          <span className="material-symbols-outlined text-on-surface-variant">more_vert</span>
-        </header>
 
+          {/* Chat List */}
+          <div className="flex-1 overflow-y-auto space-y-1">
+            {chats.map((chat) => (
+              <div
+                key={chat.id}
+                onClick={() => {
+                  setCurrentChatId(chat.id);
+                  setHistoryOpen(false);
+                }}
+                className={`group flex items-center justify-between px-sm py-sm rounded-lg cursor-pointer text-label-sm font-label-sm transition-all duration-200 ${
+                  currentChatId === chat.id
+                    ? "bg-primary-container/10 text-primary border-r-2 border-primary"
+                    : "text-on-surface-variant hover:bg-primary-container/10 hover:text-on-surface"
+                }`}
+              >
+                {editingChatId === chat.id ? (
+                  <div className="flex-1 pr-2">
+                    <input
+                      type="text"
+                      value={editingTitle}
+                      onChange={(e) => setEditingTitle(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") saveTitle(chat.id, e);
+                        if (e.key === "Escape") setEditingChatId(null);
+                      }}
+                      onBlur={() => saveTitle(chat.id)}
+                      autoFocus
+                      className="w-full bg-surface-container-lowest text-on-surface px-2 py-1 rounded border border-primary/50 outline-none text-xs focus:ring-1 focus:ring-primary"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <span className="truncate flex-1">{chat.title}</span>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0 gap-1">
+                      <button
+                        onClick={(e) => startEditing(chat, e)}
+                        className="text-outline hover:text-primary p-1 rounded hover:bg-primary-container/20 transition-colors"
+                        aria-label="Rename chat"
+                      >
+                        <span className="material-symbols-outlined text-[14px]">edit</span>
+                      </button>
+                      <button
+                        onClick={(e) => deleteChat(chat.id, e)}
+                        className="text-outline hover:text-error p-1 rounded hover:bg-error/10 transition-colors"
+                        aria-label="Delete chat"
+                      >
+                        <span className="material-symbols-outlined text-[14px]">delete</span>
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div className="mt-auto border-t border-outline-variant/30 pt-md flex flex-col gap-sm">
+            <a
+              href="#"
+              className="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-primary-container/20 transition-all duration-300 active:scale-95"
+            >
+              <span className="material-symbols-outlined nav-icon">account_circle</span>
+              Profile
+            </a>
+            <a
+              href="#"
+              className="flex items-center gap-sm py-sm px-sm rounded-lg text-error hover:text-error-container hover:bg-error/10 transition-all duration-300 active:scale-95"
+            >
+              <span className="material-symbols-outlined nav-icon">logout</span>
+              Log out
+            </a>
+          </div>
+        </aside>
+      )}
+
+      {/* ── Guardrail Toast ── */}
+      {guardrailMsg && (
+        <div className="fixed top-md left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-2xl">
+          <div className="glass-panel rounded-xl p-4 flex items-start gap-4 animate-[fadeUpAnim_0.3s_ease-out] border border-white/10">
+            <div className="flex-shrink-0 pt-1">
+              <span className="material-symbols-outlined text-tertiary-container icon-filled">
+                warning
+              </span>
+            </div>
+            <div className="flex-1">
+              <p className="font-label-sm text-on-surface-variant">
+                <span className="text-on-surface font-medium block mb-1">System Guardrail</span>
+                {guardrailMsg}
+              </p>
+            </div>
+            <button
+              onClick={() => setGuardrailMsg(null)}
+              className="flex-shrink-0 w-8 h-8 rounded-full skeuomorphic-circle flex items-center justify-center hover:opacity-80 transition-opacity"
+            >
+              <span className="material-symbols-outlined text-[18px] text-on-surface-variant">
+                close
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ================================================================
+         MAIN CANVAS AREA
+         ================================================================ */}
+      <main className="flex-1 flex flex-col h-screen relative z-10">
         {/* ================================================================
-           EMPTY STATE — No messages
+           EMPTY STATE — No messages (New Hero Design)
            ================================================================ */}
         {!hasMessages && !loading && (
           <div className="flex-1 flex flex-col items-center justify-center p-xl relative z-10">
-            <div className="w-full max-w-3xl flex flex-col items-center gap-lg">
-              {/* Hero Icon */}
+            <div className="w-full max-w-3xl flex flex-col items-center gap-lg flex-grow justify-center">
+              {/* AI Interaction Hub Hero */}
               <div className="flex flex-col items-center gap-md text-center">
                 <div className="relative w-32 h-32 flex items-center justify-center mb-4">
-                  {/* Pulsing Halos */}
+                  {/* Pulsing Halo */}
                   <div className="absolute inset-0 rounded-full border border-primary/40 animate-pulse-slow shadow-[0_0_40px_rgba(192,193,255,0.3)]" />
                   <div className="absolute inset-4 rounded-full border border-tertiary-container/50 animate-[pulse_3s_ease-in-out_infinite]" />
                   {/* Glass Core */}
@@ -430,8 +465,9 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Search Bar */}
+              {/* Central Search Bar */}
               <div className="w-full max-w-2xl relative mt-md">
+                {/* Inset Track */}
                 <div className="w-full bg-[#0a0a14] rounded-full p-xs neu-inset flex items-center border border-white/5 relative overflow-hidden group">
                   <div className="absolute inset-0 rounded-full border border-primary/20 opacity-50 group-hover:opacity-100 group-hover:border-primary/50 transition-all duration-700 pointer-events-none" />
                   <span className="material-symbols-outlined text-outline ml-md mr-sm drop-shadow-md">
@@ -461,7 +497,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Suggestion Capsules */}
+              {/* Suggestions */}
               <div className="w-full max-w-3xl mt-xl">
                 <p className="font-label-xs text-label-xs text-outline-variant uppercase tracking-[0.15em] mb-md text-center">
                   Suggested Starting Points
@@ -561,7 +597,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="fixed bottom-4 left-4 md:left-[312px] right-4 p-margin-mobile md:p-margin-desktop bg-gradient-to-t from-background via-background/90 to-transparent z-30 pointer-events-none rounded-b-[32px]">
+            <div className="fixed bottom-4 left-4 right-4 p-margin-mobile md:p-margin-desktop bg-gradient-to-t from-background via-background/90 to-transparent z-30 pointer-events-none rounded-b-[32px]">
               <div className="max-w-3xl mx-auto w-full neumorphic-inset rounded-2xl p-2 flex items-center gap-2 border border-outline-variant/20 opacity-50 relative overflow-hidden">
                 <div className="absolute inset-0 bg-primary-container/5 pulse-text" />
                 <div className="w-12 h-12 rounded-xl skeuomorphic-circle flex items-center justify-center text-on-surface-variant">
@@ -584,7 +620,11 @@ export default function Home() {
         {hasMessages && !loading && (
           <>
             {/* Header */}
-            <header className="glass-header sticky top-0 w-full z-50 hidden md:flex justify-between items-center px-lg py-sm">
+            <header className="glass-header sticky top-0 w-full z-50 flex justify-between items-center px-lg py-sm">
+              {/* Mobile: hamburger */}
+              <button onClick={() => setHistoryOpen(true)} className="md:hidden p-1">
+                <span className="material-symbols-outlined text-on-surface-variant">menu</span>
+              </button>
               <div className="flex items-center gap-4">
                 <h2 className="font-title-md text-title-md text-on-surface flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary text-[20px] nav-icon">
@@ -609,7 +649,7 @@ export default function Home() {
 
             {/* Scrollable Content */}
             <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-lg pb-[160px]">
-              <div className="max-w-4xl mx-auto space-y-xl">
+              <div className="max-w-4xl mx-auto space-y-xl md:ml-[80px]">
                 {currentChat?.messages.map((msg, index) => {
                   if (msg.role === "user") {
                     return (
@@ -634,7 +674,7 @@ export default function Home() {
             {/* Bottom Input */}
             <div className="absolute bottom-0 left-0 w-full p-lg glass-input-area border-t border-outline-variant/10">
               <div className="input-fade-mask" />
-              <div className="max-w-3xl mx-auto pointer-events-auto">
+              <div className="max-w-3xl mx-auto pointer-events-auto md:ml-[80px]">
                 <div className="relative flex items-center">
                   <div className="absolute inset-0 bg-primary/5 rounded-full blur-xl animate-pulse" />
                   <div className="neu-inset bg-[#0e0e1a] rounded-full w-full flex items-center p-2 border border-outline-variant/30 relative z-10 transition-shadow duration-300 focus-within:shadow-[0_0_15px_rgba(192,193,255,0.15),inset_4px_4px_8px_rgba(0,0,0,0.6)]">

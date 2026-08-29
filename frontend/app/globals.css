@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ================================================================
-   TACTILE INTELLIGENCE DESIGN SYSTEM
+   TACTILE INTELLIGENCE DESIGN SYSTEM v2
    Neumorphism + Glassmorphism + Skeuomorphism
    ================================================================ */
 
@@ -41,8 +41,21 @@ body {
 /* Raised surface — cards, panels */
 .neu-raised {
   box-shadow:
-    8px 8px 16px rgba(0, 0, 0, 0.4),
-    -4px -4px 12px rgba(255, 255, 255, 0.03);
+    12px 12px 24px rgba(0, 0, 0, 0.6),
+    -6px -6px 16px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.neu-raised:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    16px 16px 32px rgba(0, 0, 0, 0.7),
+    -8px -8px 20px rgba(255, 255, 255, 0.05),
+    inset 0 2px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Stronger raised card — research result cards */
@@ -92,10 +105,15 @@ body {
 /* Small raised pill — source tags, chips */
 .neu-pill {
   box-shadow:
-    3px 3px 6px rgba(0, 0, 0, 0.4),
-    -2px -2px 5px rgba(255, 255, 255, 0.03);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    4px 4px 8px rgba(0, 0, 0, 0.5),
+    -2px -2px 6px rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.neu-pill:active {
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.4),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.02);
+  border-top: none;
 }
 
 /* Action button — Save Insight, Cite */
@@ -139,13 +157,9 @@ body {
 
 /* Generic glass panel */
 .glass-panel {
-  background: rgba(30, 30, 50, 0.5);
   backdrop-filter: blur(24px) saturate(1.8);
   -webkit-backdrop-filter: blur(24px) saturate(1.8);
-  border: 1px solid rgba(192, 193, 255, 0.15);
-  box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.1),
-    0 32px 64px rgba(0, 0, 0, 0.6);
+  background: rgba(18, 18, 35, 0.6);
 }
 
 /* Sidebar glass */
@@ -158,18 +172,18 @@ body {
 
 /* Header glass */
 .glass-header {
-  background: rgba(18, 18, 35, 0.5);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  background: rgba(18, 18, 35, 0.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* Bottom input area glass */
 .glass-input-area {
-  background: rgba(18, 18, 35, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  background: rgba(18, 18, 35, 0.7);
 }
 
 /* Input fade mask — gradient above sticky input */
@@ -254,7 +268,7 @@ body {
 
 /* Nav icon drop shadow */
 .nav-icon {
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
 }
 
 /* Ambient background orb */
@@ -265,6 +279,33 @@ body {
   z-index: -1;
   opacity: 0.4;
   pointer-events: none;
+}
+
+/* Noise texture overlay */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   PILL NAV — Vertical capsule navigation
+   ================================================================ */
+.pill-nav {
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  background: rgba(18, 18, 35, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ================================================================
+   SIDEBAR PANEL — Slide-over history panel
+   ================================================================ */
+.sidebar-panel {
+  background: rgba(18, 18, 35, 0.85);
+  backdrop-filter: blur(32px) saturate(1.8);
+  -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 20px 0 60px rgba(0, 0, 0, 0.6);
 }
 
 /* ================================================================
@@ -346,9 +387,32 @@ body {
   animation-delay: 0.5s;
 }
 
-/* Noise texture overlay */
-.bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+/* Sidebar slide animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+.sidebar-enter {
+  animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.sidebar-exit {
+  animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* ================================================================
@@ -356,34 +420,23 @@ body {
    ================================================================ */
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    90deg,
-    rgba(144, 143, 160, 0.2),
-    rgba(144, 143, 160, 0.4),
-    rgba(144, 143, 160, 0.2)
-  );
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow:
-    inset 1px 0 1px rgba(255, 255, 255, 0.1),
-    inset -1px 0 1px rgba(0, 0, 0, 0.2);
-  border: 2px solid transparent;
-  background-clip: padding-box;
+    inset 1px 0 2px rgba(255, 255, 255, 0.2),
+    2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    90deg,
-    rgba(144, 143, 160, 0.3),
-    rgba(144, 143, 160, 0.5),
-    rgba(144, 143, 160, 0.3)
-  );
-  border: 2px solid transparent;
-  background-clip: padding-box;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* ================================================================
@@ -429,4 +482,43 @@ body {
 }
 .prose-tactile a:hover {
   color: #e1e0ff;
+}
+
+.prose-tactile ul,
+.prose-tactile ol {
+  color: #c7c4d7;
+  padding-left: 1.5em;
+  margin: 0.75rem 0;
+}
+.prose-tactile li {
+  margin-bottom: 0.35rem;
+}
+.prose-tactile code {
+  background: rgba(14, 14, 26, 0.7);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #c0c1ff;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.prose-tactile pre {
+  background: rgba(10, 10, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  overflow-x: auto;
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4);
+}
+.prose-tactile pre code {
+  background: transparent;
+  padding: 0;
+  border: none;
+  color: #e2e0fc;
+}
+.prose-tactile blockquote {
+  border-left: 3px solid rgba(192, 193, 255, 0.4);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #c7c4d7;
+  font-style: italic;
 }
