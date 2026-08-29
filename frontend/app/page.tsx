@@ -48,8 +48,13 @@ export default function Home() {
     const saved = localStorage.getItem("researcher_ai_chats");
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
-        setChats(parsed);
+        const parsed: Chat[] = JSON.parse(saved);
+        /* Sanitize: strip messages with undefined content from stale data */
+        const sanitized = parsed.map((chat) => ({
+          ...chat,
+          messages: (chat.messages || []).filter((m) => m && typeof m.content === "string"),
+        }));
+        setChats(sanitized);
         if (parsed.length > 0) setCurrentChatId(parsed[0].id);
         else createNewChat();
       } catch {
@@ -429,7 +434,7 @@ export default function Home() {
       {/* ================================================================
          MAIN CANVAS AREA
          ================================================================ */}
-      <main className="flex-1 flex flex-col h-screen relative z-10">
+      <main className="flex-1 flex flex-col h-screen relative z-10 md:ml-[112px]">
         {/* ================================================================
            EMPTY STATE — No messages (New Hero Design)
            ================================================================ */}
@@ -649,7 +654,7 @@ export default function Home() {
 
             {/* Scrollable Content */}
             <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-lg pb-[160px]">
-              <div className="max-w-4xl mx-auto space-y-xl md:ml-[80px]">
+              <div className="max-w-4xl mx-auto space-y-xl">
                 {currentChat?.messages.map((msg, index) => {
                   if (msg.role === "user") {
                     return (
@@ -674,7 +679,7 @@ export default function Home() {
             {/* Bottom Input */}
             <div className="absolute bottom-0 left-0 w-full p-lg glass-input-area border-t border-outline-variant/10">
               <div className="input-fade-mask" />
-              <div className="max-w-3xl mx-auto pointer-events-auto md:ml-[80px]">
+              <div className="max-w-3xl mx-auto pointer-events-auto">
                 <div className="relative flex items-center">
                   <div className="absolute inset-0 bg-primary/5 rounded-full blur-xl animate-pulse" />
                   <div className="neu-inset bg-[#0e0e1a] rounded-full w-full flex items-center p-2 border border-outline-variant/30 relative z-10 transition-shadow duration-300 focus-within:shadow-[0_0_15px_rgba(192,193,255,0.15),inset_4px_4px_8px_rgba(0,0,0,0.6)]">
