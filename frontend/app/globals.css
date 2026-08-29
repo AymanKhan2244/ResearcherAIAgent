@@ -522,3 +522,17 @@ body {
   color: #c7c4d7;
   font-style: italic;
 }
+
+.glow-border {
+  border: 1px solid rgba(192, 193, 255, 0.3);
+  box-shadow: 0 0 15px rgba(192, 193, 255, 0.1);
+}
+
+/* Scrollbar hiding for cleaner look */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

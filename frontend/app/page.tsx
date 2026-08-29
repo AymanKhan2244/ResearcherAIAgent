@@ -241,7 +241,7 @@ export default function Home() {
       {/* ================================================================
          PILL NAV — Minimal vertical capsule (visible on desktop)
          ================================================================ */}
-      <nav className="hidden md:flex flex-col items-center gap-lg p-md pill-nav fixed left-4 top-1/2 -translate-y-1/2 h-auto w-24 rounded-full z-40">
+      <nav className="fixed left-sm top-sm bottom-sm w-20 rounded-full backdrop-blur-xl border border-white/10 shadow-[8px_8px_16px_rgba(0,0,0,0.4),-4px_-4px_12px_rgba(255,255,255,0.03)] flex-col items-center py-lg gap-md bg-surface-container-low/80 z-40 md:flex hidden">
         {/* Logo Orb */}
         <div className="mb-xl flex items-center gap-sm px-base">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-tertiary-container flex items-center justify-center neu-raised">
@@ -434,7 +434,7 @@ export default function Home() {
       {/* ================================================================
          MAIN CANVAS AREA
          ================================================================ */}
-      <main className="flex-1 flex flex-col h-screen relative z-10 md:ml-[112px]">
+      <main className="flex-1 flex flex-col h-screen relative z-10 md:ml-[120px]">
         {/* ================================================================
            EMPTY STATE — No messages (New Hero Design)
            ================================================================ */}
@@ -653,7 +653,7 @@ export default function Home() {
             </header>
 
             {/* Scrollable Content */}
-            <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-lg pb-[160px]">
+            <div ref={chatContainerRef} className="flex-1 overflow-y-auto no-scrollbar p-lg pb-[140px]">
               <div className="max-w-4xl mx-auto space-y-xl">
                 {currentChat?.messages.map((msg, index) => {
                   if (msg.role === "user") {
@@ -677,44 +677,55 @@ export default function Home() {
             </div>
 
             {/* Bottom Input */}
-            <div className="absolute bottom-0 left-0 w-full p-lg glass-input-area border-t border-outline-variant/10">
-              <div className="input-fade-mask" />
-              <div className="max-w-3xl mx-auto pointer-events-auto">
-                <div className="relative flex items-center">
-                  <div className="absolute inset-0 bg-primary/5 rounded-full blur-xl animate-pulse" />
-                  <div className="neu-inset bg-[#0e0e1a] rounded-full w-full flex items-center p-2 border border-outline-variant/30 relative z-10 transition-shadow duration-300 focus-within:shadow-[0_0_15px_rgba(192,193,255,0.15),inset_4px_4px_8px_rgba(0,0,0,0.6)]">
-                    <span className="material-symbols-outlined text-outline ml-4">auto_awesome</span>
-                    <input
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") sendMessage();
-                      }}
-                      className="w-full bg-transparent border-none text-on-surface placeholder:text-outline-variant font-label-sm focus:ring-0 px-4 py-3 outline-none"
-                      placeholder="Ask follow-up, refine search, or synthesize findings..."
-                      type="text"
-                    />
-                    {/* Orb Button */}
-                    <button
-                      onClick={() => sendMessage()}
-                      disabled={loading || !message.trim()}
-                      className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-container to-on-tertiary-container neu-raised flex items-center justify-center group relative overflow-hidden flex-shrink-0 border-t border-white/20 disabled:opacity-30 hover:brightness-110 active:scale-95 transition-all"
-                    >
-                      <div className="absolute top-0 left-0 w-full h-1/2 bg-white/20 rounded-t-full" />
-                      <span className="material-symbols-outlined text-white z-10 group-hover:scale-110 transition-transform nav-icon icon-filled">
-                        send
-                      </span>
+            <div className="absolute bottom-0 w-full pointer-events-none z-20">
+              <div className="h-24 bg-gradient-to-t from-background via-background/80 to-transparent w-full" />
+              <div className="bg-background/90 backdrop-blur-xl pb-6 pt-2 px-gutter w-full pointer-events-auto border-t border-white/5">
+                <div className="max-w-4xl mx-auto relative group">
+                  <div className="absolute -inset-[1px] bg-gradient-to-r from-primary/30 to-secondary/30 rounded-xl opacity-50 group-focus-within:opacity-100 transition-opacity blur-[2px]" />
+                  <div className="neu-inset bg-[#0e0e1a] rounded-xl flex items-end p-2 relative z-10 min-h-[64px]">
+                    <button className="p-3 text-on-surface-variant hover:text-primary transition-colors">
+                      <span className="material-symbols-outlined">add_circle</span>
                     </button>
+                    <textarea
+                      value={message}
+                      onChange={(e) => {
+                        setMessage(e.target.value);
+                        e.target.style.height = "auto";
+                        e.target.style.height = `${e.target.scrollHeight}px`;
+                        if (e.target.scrollHeight > 150) {
+                          e.target.style.overflowY = "auto";
+                        } else {
+                          e.target.style.overflowY = "hidden";
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          sendMessage();
+                          // reset height
+                          e.currentTarget.style.height = "auto";
+                        }
+                      }}
+                      className="flex-1 bg-transparent border-none outline-none text-on-surface font-label-sm font-['Inter'] resize-none py-3 px-2 focus:ring-0 placeholder:text-on-surface-variant/50 max-h-[150px] min-h-[44px]"
+                      placeholder="Ask follow-up, refine search, or synthesize findings..."
+                      rows={1}
+                    />
+                    <div className="flex items-center gap-2 p-2">
+                      <button className="p-2 text-on-surface-variant hover:text-primary transition-colors hidden sm:block">
+                        <span className="material-symbols-outlined">mic</span>
+                      </button>
+                      <button
+                        onClick={() => sendMessage()}
+                        disabled={loading || !message.trim()}
+                        className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-inverse-primary text-on-primary flex items-center justify-center shadow-[0_0_15px_rgba(192,193,255,0.3)] hover:brightness-110 active:scale-95 transition-all disabled:opacity-30"
+                      >
+                        <span className="material-symbols-outlined nav-icon icon-filled">send</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="text-center mt-2">
-                  <span className="text-label-xs text-outline-variant font-label-xs">
-                    Press{" "}
-                    <kbd className="px-1 py-0.5 rounded bg-surface-container-high border border-outline-variant/50 text-outline mx-1 neu-pill">
-                      Enter
-                    </kbd>{" "}
-                    to query AI model
-                  </span>
+                <div className="text-center mt-2 font-label-xs text-label-xs text-on-surface-variant/50">
+                  AI may produce inaccurate information. Verify critical data.
                 </div>
               </div>
             </div>
@@ -778,11 +789,9 @@ function AssistantResponse({ content, index }: { content: string; index: number 
 
   /* Render each section as a separate card */
   const accentColors = [
-    "from-primary to-transparent",
-    "from-secondary to-transparent",
-    "from-tertiary to-transparent",
-    "from-primary-container to-transparent",
-    "from-tertiary-container to-transparent",
+    "border-l-primary",
+    "border-l-secondary",
+    "border-l-tertiary",
   ];
 
   return (
@@ -791,16 +800,13 @@ function AssistantResponse({ content, index }: { content: string; index: number 
         const trimmed = section.trim();
         if (!trimmed) return null;
 
+        const borderColor = accentColors[i % accentColors.length];
+
         return (
           <article
             key={`${index}-${i}`}
-            className={`neu-card bg-surface-container/60 backdrop-blur-md rounded-xl p-lg relative overflow-hidden group fade-up stagger-${Math.min(i + 1, 5)}`}
+            className={`neu-card bg-surface-container/60 backdrop-blur-md rounded-xl p-lg relative overflow-hidden group fade-up stagger-${Math.min(i + 1, 5)} border-l-2 ${borderColor}`}
           >
-            {/* Left accent bar */}
-            <div
-              className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${accentColors[i % accentColors.length]} opacity-50 group-hover:opacity-100 transition-opacity`}
-            />
-
             <div className="prose-tactile">
               <ReactMarkdown
                 components={{
