@@ -12,6 +12,7 @@ dependencies = [
     "langchain-groq>=1.1.2",
     "langchain-tavily>=0.2.18",
     "langgraph>=1.1.10",
+    "langsmith>=0.8.3",
     "nemoguardrails>=0.23.0",
     "pydantic>=2.13.4",
     "pytest-playwright>=0.8.0",

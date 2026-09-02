@@ -7,6 +7,13 @@ from langgraph.prebuilt import tools_condition
 from guardrail import validate_query
 from langchain_tavily import TavilySearch
 from  dotenv import load_dotenv
+from langsmith import traceable
+import os 
+
+os.getenv("LANGSMITH_TRACING") = True
+os.getenv("LANGSMITH_ENDPOIN") = "https://api.smith.langchain.com"
+os.getenv("LANGSMITH_PROJECT") = "Researcher_Agent"
+ 
 load_dotenv()
 
 
