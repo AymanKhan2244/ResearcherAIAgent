@@ -22,8 +22,8 @@ type Chat = {
 /* ─────────────────────────────────────────
    CONSTANTS
 ───────────────────────────────────────── */
-const API_URL = "http://127.0.0.1:8000/chat";
-const STORAGE_KEY = "researcher_ai_chats";
+const API_BASE = "http://127.0.0.1:8000";
+const API_URL = `${API_BASE}/chat`;
 
 const SUGGESTIONS = [
   { emoji: "✨", label: "Latest AI breakthroughs 2026", query: "Latest AI breakthroughs 2026" },
@@ -35,14 +35,6 @@ const SUGGESTIONS = [
 /* ─────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────── */
-function generateId(): string {
-  return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
-}
-
-function createNewChat(): Chat {
-  return { id: generateId(), title: "New Research", messages: [], createdAt: Date.now() };
-}
-
 function isGuardrailBlock(response: string): boolean {
   // Guardrail responses typically don't have the 5-point markdown structure
   return (
@@ -235,39 +227,23 @@ export default function Home() {
   /* ── Hydration ── */
   useEffect(() => {
     setIsClient(true);
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const parsed: Chat[] = JSON.parse(saved);
-        const sanitized = parsed.map((c) => ({
-          ...c,
-          messages: (c.messages || []).filter(
-            (m) => m && typeof m.content === "string"
-          ),
-        }));
-        setChats(sanitized);
-        if (sanitized.length > 0) setCurrentChatId(sanitized[0].id);
-        else {
-          const nc = createNewChat();
-          setChats([nc]);
-          setCurrentChatId(nc.id);
+    fetch(`${API_BASE}/chats`)
+      .then((res) => res.json())
+      .then((data: Chat[]) => {
+        setChats(data);
+        if (data.length > 0) {
+          setCurrentChatId(data[0].id);
+        } else {
+          fetch(`${API_BASE}/chats`, { method: "POST" })
+            .then((res) => res.json())
+            .then((nc: Chat) => {
+              setChats([nc]);
+              setCurrentChatId(nc.id);
+            });
         }
-      } catch {
-        const nc = createNewChat();
-        setChats([nc]);
-        setCurrentChatId(nc.id);
-      }
-    } else {
-      const nc = createNewChat();
-      setChats([nc]);
-      setCurrentChatId(nc.id);
-    }
+      })
+      .catch((err) => console.error("Failed to load chats", err));
   }, []);
-
-  /* ── Persist to localStorage ── */
-  useEffect(() => {
-    if (isClient) localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
-  }, [chats, isClient]);
 
   /* ── Auto-scroll ── */
   useEffect(() => {
@@ -288,12 +264,17 @@ export default function Home() {
   const currentChat = chats.find((c) => c.id === currentChatId) ?? null;
 
   /* ── Actions ── */
-  const handleNewChat = useCallback(() => {
-    const nc = createNewChat();
-    setChats((prev) => [nc, ...prev]);
-    setCurrentChatId(nc.id);
-    setDrawerOpen(false);
-    setMessage("");
+  const handleNewChat = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE}/chats`, { method: "POST" });
+      const nc = await res.json();
+      setChats((prev) => [nc, ...prev]);
+      setCurrentChatId(nc.id);
+      setDrawerOpen(false);
+      setMessage("");
+    } catch (e) {
+      console.error(e);
+    }
   }, []);
 
   const handleSelectChat = (id: string) => {
@@ -301,22 +282,32 @@ export default function Home() {
     setDrawerOpen(false);
   };
 
-  const handleDeleteChat = (id: string, e: React.MouseEvent) => {
+  const handleDeleteChat = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     if (deletingChatId === id) {
       // Confirmed delete
-      setChats((prev) => {
-        const updated = prev.filter((c) => c.id !== id);
-        if (currentChatId === id) {
-          if (updated.length > 0) setCurrentChatId(updated[0].id);
-          else {
-            const nc = createNewChat();
-            setCurrentChatId(nc.id);
-            return [nc];
+      try {
+        await fetch(`${API_BASE}/chats/${id}`, { method: "DELETE" });
+        setChats((prev) => {
+          const updated = prev.filter((c) => c.id !== id);
+          if (currentChatId === id) {
+            if (updated.length > 0) setCurrentChatId(updated[0].id);
+            else {
+              // Fire and forget new chat creation
+              fetch(`${API_BASE}/chats`, { method: "POST" })
+                .then(r => r.json())
+                .then(nc => {
+                  setChats([nc]);
+                  setCurrentChatId(nc.id);
+                });
+              return [];
+            }
           }
-        }
-        return updated;
-      });
+          return updated;
+        });
+      } catch (e) {
+        console.error(e);
+      }
       setDeletingChatId(null);
     } else {
       setDeletingChatId(id);
@@ -330,16 +321,26 @@ export default function Home() {
     setEditingTitle(title);
   };
 
-  const commitRename = () => {
+  const commitRename = async () => {
     if (!editingChatId) return;
-    setChats((prev) =>
-      prev.map((c) =>
-        c.id === editingChatId
-          ? { ...c, title: editingTitle.trim() || c.title }
-          : c
-      )
-    );
+    const targetId = editingChatId;
+    const newTitle = editingTitle.trim();
+    
     setEditingChatId(null);
+    if (!newTitle) return;
+
+    try {
+      await fetch(`${API_BASE}/chats/${targetId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newTitle }),
+      });
+      setChats((prev) =>
+        prev.map((c) => (c.id === targetId ? { ...c, title: newTitle } : c))
+      );
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleSuggestion = (q: string) => {
@@ -362,10 +363,16 @@ export default function Home() {
     // Ensure we have a current chat
     let chatId = currentChatId;
     if (!chatId || !chats.find((c) => c.id === chatId)) {
-      const nc = createNewChat();
-      setChats((prev) => [nc, ...prev]);
-      chatId = nc.id;
-      setCurrentChatId(chatId);
+      try {
+        const res = await fetch(`${API_BASE}/chats`, { method: "POST" });
+        const nc = await res.json();
+        setChats((prev) => [nc, ...prev]);
+        chatId = nc.id;
+        setCurrentChatId(chatId);
+      } catch (e) {
+        console.error(e);
+        return;
+      }
     }
 
     const userMsg: Message = { role: "user", content: trimmed };
@@ -393,7 +400,7 @@ export default function Home() {
       const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed }),
+        body: JSON.stringify({ message: trimmed, chat_id: chatId }),
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
