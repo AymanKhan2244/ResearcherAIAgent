@@ -55,36 +55,39 @@ function isGuardrailBlock(response: string): boolean {
 ───────────────────────────────────────── */
 function ResearchingLoader() {
   return (
-    <div className="glass-card rounded-2xl p-space-md shadow-xl animate-slide-up">
-      {/* Header */}
-      <div className="flex items-center justify-between gap-space-xs pb-space-sm mb-space-sm border-b border-white/5">
-        <div className="flex items-center gap-space-xs">
-          <div className="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
-            <span className="material-symbols-outlined text-primary-fixed-dim text-[18px]">science</span>
+    <div className="relative w-full overflow-hidden rounded-2xl bg-surface-container-low/60 backdrop-blur-xl p-space-lg shadow-xl mb-4">
+      {/* Neon Laser Scan Indicator */}
+      <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent animate-[shimmer_2s_infinite] shadow-[0_0_12px_#c0c1ff]"></div>
+      
+      <div className="flex flex-col gap-space-md">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-space-sm">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-container"></span>
+            </span>
+            <span className="font-title-md text-title-md text-primary font-semibold">
+              Synthesizing deep web telemetry & verifying sources...
+            </span>
           </div>
-          <div>
-            <span className="font-title-md text-title-md text-primary font-semibold block">Autonomous Synthesizer</span>
-            <p className="text-[10px] text-on-surface-variant">Crawling web sources · Synthesizing data...</p>
-          </div>
+          <span className="font-label-md text-label-md text-secondary font-mono">Stage 3 of 4</span>
         </div>
-        <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-primary-container/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary typing-dot"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary typing-dot"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary typing-dot"></span>
+        
+        {/* Shimmering Skeleton Lines */}
+        <div className="flex flex-col gap-3 py-1">
+          <div className="w-full h-3 rounded-full bg-gradient-to-r from-surface-container via-surface-container-high to-surface-container animate-pulse"></div>
+          <div className="w-4/5 h-3 rounded-full bg-gradient-to-r from-surface-container via-surface-container-high to-surface-container animate-pulse" style={{ animationDelay: "150ms" }}></div>
+          <div className="w-2/3 h-3 rounded-full bg-gradient-to-r from-surface-container via-surface-container-high to-surface-container animate-pulse" style={{ animationDelay: "300ms" }}></div>
         </div>
-      </div>
-      {/* Skeleton lines */}
-      <div className="space-y-2">
-        <div className="skeleton h-4 w-3/4 rounded-full"></div>
-        <div className="skeleton h-3 w-full rounded-full" style={{ animationDelay: "0.15s" }}></div>
-        <div className="skeleton h-3 w-5/6 rounded-full" style={{ animationDelay: "0.3s" }}></div>
-        <div className="skeleton h-3 w-2/3 rounded-full mt-3" style={{ animationDelay: "0.45s" }}></div>
-        <div className="skeleton h-3 w-full rounded-full" style={{ animationDelay: "0.6s" }}></div>
-        <div className="skeleton h-3 w-4/5 rounded-full" style={{ animationDelay: "0.75s" }}></div>
-      </div>
-      <div className="mt-space-sm flex items-center justify-between text-[11px] text-on-surface-variant/60">
-        <span>Researching live web &amp; synthesizing sources...</span>
-        <span className="text-secondary-fixed-dim font-mono">Stage 3/4</span>
+        
+        <div className="flex flex-wrap items-center gap-space-md text-outline font-label-sm text-label-sm mt-2">
+          <span className="flex items-center gap-1">
+            <span className="material-symbols-outlined text-[14px] text-secondary">check_circle</span> Extracting Context
+          </span>
+          <span className="flex items-center gap-1 text-primary animate-pulse">
+            <span className="material-symbols-outlined text-[14px]">sync</span> Parsing Cross-citations
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -105,68 +108,96 @@ function AssistantCard({ content, onCopy }: { content: string; onCopy: () => voi
   };
 
   return (
-    <article className="glass-card-elevated rounded-2xl shadow-xl animate-slide-up overflow-hidden">
-      {/* Header bar */}
-      <div className="flex items-center justify-between gap-space-xs p-space-sm px-space-md bg-surface-container-high/60 border-b border-white/5">
-        <div className="flex items-center gap-space-xs min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 agent-glow">
-            <span className="material-symbols-outlined text-primary-fixed-dim text-[18px]">science</span>
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="font-title-md text-title-md text-primary font-semibold truncate">Autonomous Synthesizer</span>
-              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-bold tracking-wider uppercase">
-                Pro
-              </span>
+    <div className="flex flex-col gap-space-md w-full animate-slide-up mb-6">
+      <div className="relative rounded-2xl bg-surface-container/80 backdrop-blur-2xl shadow-2xl p-space-lg md:p-8 flex flex-col gap-space-lg border border-white/5">
+        
+        {/* Agent Status Header */}
+        <div className="flex flex-wrap items-center justify-between gap-space-md pb-space-md bg-surface-container-low/40 rounded-xl px-space-md py-space-sm">
+          <div className="flex items-center gap-space-sm">
+            <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary-container/20">
+              <span className="material-symbols-outlined text-on-primary text-[20px]">science</span>
             </div>
-            <p className="text-[10px] text-on-surface-variant truncate">Web Synthesis · Verified</p>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <span className="font-title-md text-title-md text-primary font-semibold">Autonomous Synthesizer Node 7</span>
+                <span className="px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary font-label-sm text-label-sm uppercase tracking-wider">Verified Run</span>
+              </div>
+              <span className="font-body-sm text-body-sm text-outline">Cross-referenced against web repositories & live data</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-space-xs shrink-0">
+            <button 
+              onClick={handleCopy}
+              className="flex items-center gap-1 px-space-sm py-1 rounded-lg bg-surface-bright/50 text-on-surface hover:text-primary transition-all font-label-md text-label-md" 
+              title="Copy Raw Markdown" 
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[16px]">
+                {copied ? "check" : "content_copy"}
+              </span>
+              <span className="hidden sm:inline">Copy</span>
+            </button>
+            <button className="flex items-center gap-1 px-space-sm py-1 rounded-lg bg-surface-bright/50 text-on-surface hover:text-primary transition-all font-label-md text-label-md" type="button">
+              <span className="material-symbols-outlined text-[16px]">ios_share</span>
+              <span className="hidden sm:inline">Export</span>
+            </button>
           </div>
         </div>
-        <button
-          aria-label="Copy synthesis"
-          onClick={handleCopy}
-          className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors shrink-0"
-        >
-          <span className="material-symbols-outlined text-[18px]">
-            {copied ? "check" : "content_copy"}
-          </span>
-        </button>
-      </div>
 
-      {/* Markdown content */}
-      <div className="p-space-md">
+        {/* Markdown content */}
         <div className="prose-research">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
-              // Custom image rendering
               img: ({ src, alt }) => (
                 <img
                   src={src}
                   alt={alt || "Research image"}
-                  className="w-full max-h-56 object-cover rounded-xl border border-white/10 my-3"
+                  className="w-full max-h-64 object-cover rounded-xl border border-white/10 my-4 shadow-lg"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = "none";
                   }}
                 />
               ),
-              // Custom h3 with left border accent
+              h2: ({ children }) => (
+                <div className="flex items-center gap-2 mt-6 mb-3">
+                  <span className="text-xl">🔬</span>
+                  <h2 className="font-headline-sm text-headline-sm text-primary font-semibold m-0">{children}</h2>
+                </div>
+              ),
               h3: ({ children }) => (
-                <h3 className="flex items-start gap-2 text-base font-semibold text-primary-fixed-dim mt-5 mb-2 p-2.5 pl-3 bg-primary/5 border-l-[3px] border-primary-container rounded-r-lg font-headline-sm">
+                <h3 className="flex items-center gap-2 text-base font-semibold text-primary-fixed-dim mt-5 mb-2 p-2.5 pl-3 bg-primary/5 border-l-[3px] border-primary-container rounded-r-lg font-headline-sm">
                   <span>{children}</span>
                 </h3>
               ),
-              // Horizontal rule
-              hr: () => (
-                <hr className="border-none border-t border-white/8 my-4" />
+              pre: ({ children }) => (
+                <div className="rounded-xl bg-surface-container-lowest shadow-2xl overflow-hidden my-4 border border-white/5">
+                  <div className="flex items-center justify-between px-space-md py-space-sm bg-surface-container-low/90 border-b border-white/5">
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-3 h-3 rounded-full bg-error-container/90"></div>
+                        <div className="w-3 h-3 rounded-full bg-tertiary-container/80"></div>
+                        <div className="w-3 h-3 rounded-full bg-secondary-container"></div>
+                      </div>
+                      <span className="font-label-sm text-label-sm text-on-surface-variant ml-2 font-mono">snippet</span>
+                    </div>
+                  </div>
+                  <div className="p-space-md overflow-x-auto text-[13px] font-mono leading-relaxed bg-surface-container-lowest text-on-surface">
+                    {children}
+                  </div>
+                </div>
               ),
+              code: ({ className, children }) => {
+                if (className) return <code className={className}>{children}</code>;
+                return <code className="bg-surface-container-highest/60 text-secondary-fixed px-1.5 py-0.5 rounded-md font-mono text-[13px]">{children}</code>;
+              }
             }}
           >
             {content}
           </ReactMarkdown>
         </div>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -175,27 +206,28 @@ function AssistantCard({ content, onCopy }: { content: string; onCopy: () => voi
 ───────────────────────────────────────── */
 function EmptyHero({ onSuggestion }: { onSuggestion: (q: string) => void }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-gutter-sm text-center">
+    <div className="flex flex-col items-center justify-center min-h-[60vh] px-gutter-sm text-center relative z-10">
       {/* Glow icon */}
       <div className="relative mb-8">
-        <div className="absolute inset-0 rounded-full bg-primary-fixed-dim/20 blur-2xl scale-150 animate-pulse"></div>
-        <div className="relative w-20 h-20 rounded-2xl bg-surface-container-high border border-white/10 flex items-center justify-center shadow-xl agent-glow">
-          <span className="material-symbols-outlined text-primary-fixed-dim text-[40px]">travel_explore</span>
+        <div className="absolute inset-0 rounded-full bg-primary-container/20 blur-2xl scale-150 animate-[pulse_3s_ease-in-out_infinite]"></div>
+        <div className="relative w-24 h-24 rounded-3xl bg-surface-container-high border border-white/10 flex items-center justify-center shadow-2xl backdrop-blur-xl">
+          <span className="material-symbols-outlined text-primary text-[48px]">travel_explore</span>
         </div>
       </div>
-      <h1 className="font-display-md text-display-md text-on-surface font-semibold mb-3 tracking-tight">
+      <h1 className="font-display-md text-display-md font-bold mb-4 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary-fixed-dim to-secondary">
         What do you want to research?
       </h1>
-      <p className="text-on-surface-variant text-body-lg mb-8 max-w-sm">
-        Powered by AI · Web Search · Real‑time Synthesis
+      <p className="text-on-surface-variant font-body-lg text-body-lg mb-10 max-w-md mx-auto">
+        Deep web synthesis, real-time autonomous crawling, and multi-node correlation.
       </p>
+      
       {/* Suggestion pills */}
-      <div className="flex flex-wrap gap-2 justify-center max-w-md">
+      <div className="flex flex-wrap gap-3 justify-center max-w-2xl">
         {SUGGESTIONS.map((s) => (
           <button
             key={s.query}
             onClick={() => onSuggestion(s.query)}
-            className="px-space-md py-2 rounded-full bg-surface-container-high/80 border border-white/8 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright hover:border-white/15 transition-all text-body-sm font-medium active:scale-95"
+            className="px-space-md py-2.5 rounded-full bg-surface-container-high/80 backdrop-blur-md border border-white/5 text-on-surface-variant hover:text-primary hover:bg-surface-bright hover:border-white/10 transition-all font-label-md text-label-md shadow-md hover:shadow-lg active:scale-95"
           >
             {s.emoji} {s.label}
           </button>
@@ -457,352 +489,317 @@ export default function Home() {
      RENDER
   ───────────────────────────────────────── */
   return (
-    <div className="min-h-screen bg-surface flex flex-col relative overflow-hidden">
+    <div className="bg-background font-body-md text-on-surface relative min-h-screen selection:bg-primary-container selection:text-on-primary-container flex">
+      
       {/* ── Ambient glow orbs ── */}
-      <div
-        className="glow-orb w-[400px] h-[400px] -top-32 left-1/2 -translate-x-1/2"
-        style={{ background: "rgba(192, 193, 255, 0.04)" }}
-      />
-      <div
-        className="glow-orb w-[300px] h-[300px] top-1/2 -right-24"
-        style={{ background: "rgba(208, 188, 255, 0.04)" }}
-      />
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute -top-40 left-1/4 w-[650px] h-[650px] rounded-full bg-secondary-container/20 blur-[130px]"></div>
+        <div className="absolute top-1/3 -right-20 w-[550px] h-[550px] rounded-full bg-tertiary-container/10 blur-[140px]"></div>
+        <div className="absolute -bottom-32 left-1/3 w-[600px] h-[600px] rounded-full bg-surface-container/40 blur-[120px]"></div>
+      </div>
 
-      {/* ── Drawer backdrop ── */}
+      {/* ── Drawer backdrop (Mobile) ── */}
       {drawerOpen && (
         <div
-          className="fixed inset-0 z-40 bg-surface-container-lowest/70 backdrop-blur-sm"
+          className="fixed inset-0 z-40 bg-surface-container-lowest/80 backdrop-blur-sm xl:hidden"
           onClick={() => setDrawerOpen(false)}
         />
       )}
 
-      {/* ── Sidebar drawer ── */}
+      {/* ── Sidebar ── */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 w-[84vw] max-w-[320px] z-50 flex flex-col transition-transform duration-300 ease-out shadow-[0_8px_48px_-4px_rgba(17,17,37,0.9)] glass-card-elevated ${
+        className={`fixed left-0 top-0 h-full w-72 bg-surface-container-lowest/80 backdrop-blur-xl border-r border-surface-bright/40 z-50 flex flex-col justify-between shadow-[0_8px_32px_rgba(12,12,32,0.8)] transition-transform duration-300 ease-out xl:translate-x-0 ${
           drawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Drawer header */}
-        <div className="h-16 px-gutter-sm flex items-center justify-between border-b border-white/5">
-          <div className="flex items-center gap-space-xs">
-            <span className="material-symbols-outlined text-secondary text-[22px]">history</span>
-            <span className="font-title-md text-title-md text-on-surface font-semibold">Research History</span>
+        <div className="flex flex-col flex-1 min-h-0">
+          <div className="h-16 px-space-md flex items-center justify-between border-b border-surface-bright/20">
+            <div className="flex items-center gap-space-sm">
+              <span className="font-headline-sm text-headline-sm text-primary tracking-tight">ResearchAI</span>
+            </div>
+            <span className="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-surface-container-high text-secondary border border-outline-variant/40 uppercase">v2.4 Pro</span>
           </div>
-          <button
-            aria-label="Close drawer"
-            onClick={() => setDrawerOpen(false)}
-            className="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors"
-          >
-            <span className="material-symbols-outlined text-[20px]">close</span>
-          </button>
-        </div>
-
-        {/* Search */}
-        <div className="px-gutter-sm py-space-sm">
-          <div className="flex items-center gap-space-xs px-space-sm h-10 rounded-full bg-surface-container-highest/60 border border-white/5">
-            <span className="material-symbols-outlined text-secondary text-[18px]">search</span>
-            <input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search prior investigations..."
-              className="w-full bg-transparent text-on-surface placeholder:text-outline text-[13px] focus:outline-none"
-            />
-          </div>
-        </div>
-
-        {/* New Research button */}
-        <div className="px-gutter-sm pb-space-sm">
-          <button
-            onClick={handleNewChat}
-            className="w-full h-10 flex items-center justify-center gap-space-xs rounded-full bg-primary-container text-on-primary-container text-[12px] font-semibold hover:bg-primary hover:text-on-primary transition-all active:scale-95"
-          >
-            <span className="material-symbols-outlined text-[18px]">add</span>
-            New Research
-          </button>
-        </div>
-
-        {/* Chat list */}
-        <div className="flex-1 overflow-y-auto px-gutter-sm pb-space-md space-y-1">
-          {filteredChats.length === 0 && (
-            <p className="text-center text-outline text-[12px] py-8">No sessions found</p>
-          )}
-          {filteredChats.map((chat) => (
-            <div
-              key={chat.id}
-              onClick={() => handleSelectChat(chat.id)}
-              className={`group flex items-center gap-space-xs p-space-sm rounded-xl cursor-pointer transition-all ${
-                chat.id === currentChatId
-                  ? "bg-surface-container-high border border-white/8"
-                  : "hover:bg-surface-container-high/50"
-              }`}
+          
+          <div className="p-space-md">
+            <button
+              onClick={() => { handleNewChat(); setDrawerOpen(false); }}
+              className="w-full flex items-center justify-center gap-space-sm py-space-sm px-space-md rounded-xl bg-gradient-to-r from-primary-container/20 via-tertiary-container/20 to-secondary-container/20 border border-primary-container/50 text-primary font-title-md text-title-md shadow-[0_0_20px_rgba(192,193,255,0.2)] hover:border-primary hover:shadow-[0_0_25px_rgba(192,193,255,0.35)] transition-all active:scale-95"
+              type="button"
             >
-              <span className="material-symbols-outlined text-secondary text-[18px] shrink-0">
-                {chat.messages.length === 0 ? "add_circle" : "neurology"}
-              </span>
-
-              {editingChatId === chat.id ? (
-                <input
-                  autoFocus
-                  value={editingTitle}
-                  onChange={(e) => setEditingTitle(e.target.value)}
-                  onBlur={commitRename}
-                  onKeyDown={(e) => e.key === "Enter" && commitRename()}
-                  onClick={(e) => e.stopPropagation()}
-                  className="flex-1 bg-surface-container-highest text-on-surface text-[13px] rounded px-2 py-0.5 focus:outline-none border border-primary-container"
-                />
-              ) : (
-                <div className="flex-1 min-w-0">
-                  <p className="text-on-surface text-[13px] truncate font-medium">{chat.title}</p>
-                  <p className="text-outline text-[10px]">
-                    {chat.messages.length} message{chat.messages.length !== 1 ? "s" : ""}
-                  </p>
+              <span className="material-symbols-outlined text-primary text-[20px]">auto_awesome</span>
+              <span>New Research</span>
+            </button>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto px-space-md space-y-space-md">
+            <div className="space-y-space-xs">
+              <div className="flex items-center justify-between px-space-xs py-space-xs">
+                <span className="font-label-sm text-label-sm text-outline tracking-wider uppercase">Recent Investigations</span>
+                <span className="material-symbols-outlined text-outline text-[16px]">history</span>
+              </div>
+              <nav className="space-y-space-xs">
+                {filteredChats.length === 0 && (
+                  <p className="text-center text-outline text-[12px] py-4">No sessions found</p>
+                )}
+                {filteredChats.map((chat) => (
+                  <div
+                    key={chat.id}
+                    onClick={() => { handleSelectChat(chat.id); setDrawerOpen(false); }}
+                    className={`group flex items-center justify-between px-space-sm py-space-sm rounded-lg transition-colors cursor-pointer ${
+                      chat.id === currentChatId
+                        ? "bg-surface-container-high text-primary font-title-md"
+                        : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface"
+                    }`}
+                  >
+                    <div className="flex items-center gap-space-sm truncate flex-1 min-w-0">
+                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${chat.id === currentChatId ? 'bg-primary-container shadow-[0_0_8px_#c0c1ff]' : 'bg-surface-bright'}`}></span>
+                      {editingChatId === chat.id ? (
+                        <input
+                          autoFocus
+                          value={editingTitle}
+                          onChange={(e) => setEditingTitle(e.target.value)}
+                          onBlur={commitRename}
+                          onKeyDown={(e) => e.key === "Enter" && commitRename()}
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 bg-surface-container-highest text-on-surface text-body-md rounded px-1 py-0.5 focus:outline-none min-w-0"
+                        />
+                      ) : (
+                        <span className="font-body-md text-body-md truncate">{chat.title}</span>
+                      )}
+                    </div>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity gap-0.5 shrink-0 ml-2">
+                      <button
+                        onClick={(e) => startRename(chat.id, chat.title, e)}
+                        className="p-0.5 text-outline hover:text-on-surface"
+                        title="Rename"
+                      >
+                        <span className="material-symbols-outlined text-[15px]">edit</span>
+                      </button>
+                      <button
+                        onClick={(e) => handleDeleteChat(chat.id, e)}
+                        className="p-0.5 text-outline hover:text-error"
+                        title="Delete"
+                      >
+                        <span className="material-symbols-outlined text-[15px]">delete</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </nav>
+            </div>
+          </div>
+        </div>
+        
+        <div className="p-space-md border-t border-surface-bright/30 space-y-space-md bg-surface-container-lowest/50">
+          <div className="flex items-center justify-between px-space-xs">
+            <div className="flex items-center gap-space-sm">
+              <div className="relative">
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                  <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
                 </div>
-              )}
-
-              {/* Actions */}
-              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-                <button
-                  aria-label="Rename"
-                  onClick={(e) => startRename(chat.id, chat.title, e)}
-                  className="w-6 h-6 rounded flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
-                >
-                  <span className="material-symbols-outlined text-[14px]">edit</span>
-                </button>
-                <button
-                  aria-label="Delete"
-                  onClick={(e) => handleDeleteChat(chat.id, e)}
-                  className={`w-6 h-6 rounded flex items-center justify-center transition-colors ${
-                    deletingChatId === chat.id
-                      ? "text-error bg-error-container/20"
-                      : "text-on-surface-variant hover:text-error"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-[14px]">delete</span>
-                </button>
+                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary-container border-2 border-surface-container-lowest"></span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-body-sm text-body-sm font-title-md text-on-surface truncate">Lead Investigator</span>
+                <span className="font-label-sm text-label-sm text-outline truncate">Session Active</span>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Footer status */}
-        <div className="px-gutter-sm py-space-sm border-t border-white/5 flex items-center justify-between">
-          <div className="flex items-center gap-space-xs">
-            <div className="w-2 h-2 rounded-full bg-secondary-fixed-dim animate-ping"></div>
-            <span className="text-[11px] text-on-surface-variant">Agent Cluster Active</span>
           </div>
-          <span className="material-symbols-outlined text-outline text-[18px]">dns</span>
         </div>
       </aside>
 
-      {/* ── Top header ── */}
-      <header className="sticky top-0 z-30 w-full bg-surface/80 backdrop-blur-xl border-b border-white/5 shadow-sm">
-        <div className="h-16 px-gutter-sm flex items-center justify-between gap-space-xs">
-          {/* Left: menu + title */}
-          <div className="flex items-center gap-space-xs">
+      {/* ── Main Layout Workspace ── */}
+      <div className="xl:pl-72 flex-1 flex flex-col min-h-screen relative w-full">
+        <header className="fixed top-0 xl:left-72 left-0 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-surface-bright/40 z-40 flex items-center justify-between px-space-md xl:px-space-lg shadow-[0_4px_24px_rgba(12,12,32,0.4)]">
+          <div className="flex items-center gap-space-md flex-1 max-w-xl">
             <button
-              aria-label="Open history drawer"
               onClick={() => setDrawerOpen(true)}
-              className="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors"
+              className="xl:hidden w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors shrink-0"
             >
               <span className="material-symbols-outlined text-[24px]">menu</span>
             </button>
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary-fixed-dim text-[22px]">science</span>
-              <span className="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight hidden sm:block">
-                Research AI
-              </span>
-            </div>
+            <button className="flex items-center justify-between w-full max-w-md px-space-md py-1.5 rounded-full bg-surface-container/60 border border-surface-bright text-on-surface-variant hover:border-primary-container/40 hover:text-on-surface transition-all" type="button">
+              <div className="flex items-center gap-space-sm">
+                <span className="material-symbols-outlined text-[18px] text-outline">search</span>
+                <span className="font-body-sm text-body-sm text-outline">Quick jump to node, paper, or query...</span>
+              </div>
+              <kbd className="hidden sm:inline-block px-2 py-0.5 rounded bg-surface-variant font-label-sm text-label-sm text-secondary border border-outline-variant/50">⌘K</kbd>
+            </button>
           </div>
-
-          {/* Right: new research + avatar */}
-          <div className="flex items-center gap-space-xs">
-            {/* Session status chip */}
+          <div className="flex items-center gap-space-md shrink-0">
             {currentChat && currentChat.messages.length > 0 && (
-              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high border border-white/8 text-[11px] text-on-surface-variant">
-                <div className="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim animate-pulse"></div>
-                Session Active
+              <div className="hidden lg:flex items-center gap-space-sm px-space-sm py-1 rounded-full bg-secondary-container/20 border border-secondary-container/40">
+                <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                <span className="font-label-md text-label-md text-secondary">Node Alpha-7 · Crawl Active</span>
               </div>
             )}
-            <button
-              onClick={handleNewChat}
-              className="h-9 px-space-md flex items-center gap-space-xs rounded-full bg-primary-container text-on-primary-container text-[12px] font-semibold hover:bg-primary hover:text-on-primary transition-all active:scale-95"
-            >
-              <span className="material-symbols-outlined text-[16px]">add</span>
-              <span className="hidden sm:inline">New Research</span>
-            </button>
-            <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-on-primary-container text-[16px]">person</span>
+            <div className="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded-lg bg-surface-container-low border border-surface-bright/50">
+              <span className="font-label-sm text-label-sm text-outline">Depth:</span>
+              <span className="px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-primary-container text-on-primary-container font-title-md">L3 Deep</span>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* ── Guardrail toast ── */}
-      {guardrailMsg && (
-        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-[90vw] max-w-md animate-slide-down">
-          <div className="bg-error-container text-on-error-container rounded-xl p-space-sm shadow-2xl flex items-center justify-between gap-space-xs border border-error/20">
-            <div className="flex items-center gap-space-xs min-w-0">
-              <span className="material-symbols-outlined text-error text-[20px] shrink-0">warning</span>
-              <div className="min-w-0">
-                <p className="text-[12px] font-bold text-error tracking-tight">Guardrail Active</p>
-                <p className="text-[11px] text-on-error-container/80 line-clamp-2">{guardrailMsg}</p>
+        {/* ── Guardrail toast ── */}
+        {guardrailMsg && (
+          <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-[90vw] max-w-md animate-slide-down">
+            <div className="bg-error-container text-on-error-container rounded-xl p-space-sm shadow-2xl flex items-center justify-between gap-space-xs border border-error/20">
+              <div className="flex items-center gap-space-xs min-w-0">
+                <span className="material-symbols-outlined text-error text-[20px] shrink-0">warning</span>
+                <div className="min-w-0">
+                  <p className="text-[12px] font-bold text-error tracking-tight">Guardrail Active</p>
+                  <p className="text-[11px] text-on-error-container/80 line-clamp-2">{guardrailMsg}</p>
+                </div>
               </div>
+              <button
+                onClick={() => setGuardrailMsg(null)}
+                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-error/20 text-on-error-container transition-colors shrink-0"
+              >
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
             </div>
-            <button
-              aria-label="Dismiss"
-              onClick={() => setGuardrailMsg(null)}
-              className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-error/20 text-on-error-container transition-colors shrink-0"
-            >
-              <span className="material-symbols-outlined text-[18px]">close</span>
-            </button>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* ── Main content ── */}
-      <main className="flex-1 flex flex-col relative z-10">
-        {/* Messages feed */}
-        <div
-          ref={chatContainerRef}
-          className="flex-1 overflow-y-auto px-gutter-sm pt-space-md pb-6"
-          style={{ maxHeight: "calc(100vh - 64px - 140px)" }}
-        >
-          {isClient && currentChat ? (
-            currentChat.messages.length === 0 ? (
-              <EmptyHero onSuggestion={handleSuggestion} />
-            ) : (
-              <div className="space-y-space-md max-w-2xl mx-auto pb-4">
-                {currentChat.messages.map((msg, i) =>
-                  msg.role === "user" ? (
-                    /* User bubble */
-                    <div key={i} className="flex justify-end animate-slide-up">
-                      <div className="max-w-[88%] bg-surface-container-highest text-on-surface rounded-2xl rounded-tr-sm p-space-md shadow-md border border-white/5">
-                        <div className="flex items-center justify-between gap-space-xs mb-1">
-                          <span className="text-[10px] text-secondary-fixed-dim uppercase tracking-wider font-bold">
-                            Lead Investigator
-                          </span>
+        <main className="relative pt-16 flex-1 w-full px-space-md sm:px-space-lg bg-surface/20 z-10">
+          <div className="flex flex-col w-full h-[calc(100vh-64px)] relative">
+            
+            {/* Ambient Glow Canvas Accents */}
+            <div className="absolute -top-12 left-1/4 w-96 h-96 bg-primary-container/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+            <div className="absolute top-1/2 right-12 w-[32rem] h-[32rem] bg-secondary-container/15 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+            
+            <div
+              ref={chatContainerRef}
+              className="flex-1 overflow-y-auto pb-32 pt-space-lg no-scrollbar"
+            >
+              {isClient && currentChat ? (
+                currentChat.messages.length === 0 ? (
+                  <EmptyHero onSuggestion={handleSuggestion} />
+                ) : (
+                  <div className="flex flex-col gap-space-xl w-full max-w-6xl mx-auto">
+                    {/* Header title for active chat */}
+                    <div className="w-full flex flex-col xl:flex-row xl:items-center justify-between gap-space-md py-space-md mb-space-sm">
+                      <div className="flex flex-col gap-space-xs">
+                        <div className="flex items-center gap-2 text-outline">
+                          <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Investigations</span>
+                          <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+                          <span className="font-label-sm text-label-sm text-on-surface-variant truncate">Session #{currentChat.id.substring(0,6).toUpperCase()}</span>
                         </div>
-                        <p className="text-body-md font-body-md leading-relaxed whitespace-pre-wrap">{msg.content}</p>
-                        <div className="mt-2 flex items-center justify-end gap-1">
-                          <span className="material-symbols-outlined text-secondary-fixed-dim text-[13px]">done_all</span>
-                          <span className="text-[10px] text-on-surface-variant">Routed to crawlers</span>
+                        <h1 className="font-headline-md text-headline-md text-primary tracking-tight">{currentChat.title}</h1>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-space-sm">
+                        <div className="flex items-center gap-2 px-space-sm py-1.5 rounded-full bg-surface-container-low/80 backdrop-blur-md shadow-sm">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+                          </span>
+                          <span className="font-label-sm text-label-sm text-on-surface">14 Crawlers Active</span>
                         </div>
                       </div>
                     </div>
-                  ) : (
-                    /* Assistant card */
-                    <AssistantCard
-                      key={i}
-                      content={msg.content}
-                      onCopy={() => {}}
-                    />
-                  )
-                )}
 
-                {/* Loading skeleton */}
-                {loading && <ResearchingLoader />}
-              </div>
-            )
-          ) : (
-            !isClient && <div className="flex items-center justify-center min-h-[50vh]">
-              <div className="flex gap-1">
-                <span className="w-2 h-2 rounded-full bg-primary typing-dot"></span>
-                <span className="w-2 h-2 rounded-full bg-primary typing-dot"></span>
-                <span className="w-2 h-2 rounded-full bg-primary typing-dot"></span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ── Input bar ── */}
-        <div className="sticky bottom-0 z-20 bg-gradient-to-t from-surface via-surface/95 to-transparent pt-4 pb-4 px-gutter-sm">
-          {/* Suggestion chips when chat has messages */}
-          {currentChat && currentChat.messages.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none mb-2">
-              {SUGGESTIONS.slice(0, 3).map((s) => (
-                <button
-                  key={s.query}
-                  onClick={() => handleSuggestion(s.query)}
-                  className="shrink-0 px-space-md py-1.5 rounded-full bg-surface-container-high/90 border border-white/8 text-on-surface-variant hover:text-primary hover:bg-surface-bright font-medium text-[11px] transition-all active:scale-95"
-                >
-                  {s.emoji} {s.label}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* Input container */}
-          <div className="max-w-2xl mx-auto">
-            <div className="relative rounded-2xl bg-surface-container-high border border-white/8 p-space-xs shadow-2xl input-glow transition-all">
-              <div className="flex items-end gap-space-xs">
-                {/* Attach button */}
-                <button
-                  aria-label="Attach file"
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors shrink-0"
-                >
-                  <span className="material-symbols-outlined text-[20px]">attach_file</span>
-                </button>
-
-                {/* Textarea */}
-                <textarea
-                  ref={textareaRef}
-                  id="research-prompt-input"
-                  rows={1}
-                  value={message}
-                  onChange={handleTextareaChange}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Ask anything to research across the web..."
-                  disabled={loading}
-                  className="w-full bg-transparent text-on-surface placeholder:text-outline text-body-md py-2.5 px-1 focus:outline-none resize-none max-h-28 leading-relaxed disabled:opacity-50"
-                />
-
-                {/* Right actions */}
-                <div className="flex items-center gap-1 shrink-0">
-                  {/* Web crawl toggle */}
-                  <button
-                    aria-label="Web crawl mode"
-                    className="w-9 h-9 rounded-xl flex items-center justify-center text-secondary hover:bg-surface-container-highest transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">travel_explore</span>
-                  </button>
-
-                  {/* Send button */}
-                  <button
-                    id="send-query-btn"
-                    aria-label="Submit research query"
-                    onClick={handleSend}
-                    disabled={!message.trim() || loading}
-                    className={`h-10 px-space-md flex items-center justify-center gap-1 rounded-xl text-[12px] font-bold transition-all shadow-md ${
-                      message.trim() && !loading
-                        ? "bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary active:scale-95 cursor-pointer"
-                        : "bg-surface-container-highest text-outline cursor-not-allowed opacity-50"
-                    }`}
-                  >
-                    {loading ? (
-                      <>
-                        <span className="w-1.5 h-1.5 rounded-full bg-current typing-dot"></span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-current typing-dot"></span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-current typing-dot"></span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Investigate</span>
-                        <span className="material-symbols-outlined text-[16px]">send</span>
-                      </>
+                    {currentChat.messages.map((msg, i) =>
+                      msg.role === "user" ? (
+                        /* User Query Row */
+                        <div key={i} className="flex justify-end w-full pl-8 md:pl-24 animate-slide-up mb-6">
+                          <div className="relative max-w-2xl group">
+                            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary-container/30 to-tertiary-container/30 rounded-2xl blur-sm group-hover:blur opacity-75 transition duration-500"></div>
+                            <div className="relative flex flex-col gap-space-xs p-space-lg rounded-2xl bg-surface-container-high/90 backdrop-blur-xl shadow-xl">
+                              <div className="flex items-center justify-between gap-4">
+                                <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest flex items-center gap-1.5">
+                                  <span className="material-symbols-outlined text-[14px]">psychology</span> Lead Query
+                                </span>
+                              </div>
+                              <p className="font-body-lg text-body-lg text-on-background leading-relaxed whitespace-pre-wrap">
+                                {msg.content}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <AssistantCard
+                          key={i}
+                          content={msg.content}
+                          onCopy={() => {}}
+                        />
+                      )
                     )}
-                  </button>
+
+                    {loading && <ResearchingLoader />}
+                  </div>
+                )
+              ) : (
+                !isClient && <div className="flex items-center justify-center min-h-[50vh]">
+                  <div className="flex gap-1">
+                    <span className="w-2 h-2 rounded-full bg-primary typing-dot"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary typing-dot"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary typing-dot"></span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ── Sticky Bottom Command Bar Overlay ── */}
+            <div className="absolute bottom-4 left-0 right-0 px-space-md sm:px-space-lg pointer-events-none z-40 flex flex-col items-center">
+              <div className="w-full max-w-4xl pointer-events-auto flex flex-col gap-space-xs">
+                
+                {/* Main Input Capsule */}
+                <div className="relative w-full rounded-2xl bg-surface-container-high/90 backdrop-blur-2xl shadow-2xl p-space-sm flex flex-col gap-2 border border-white/5 transition-all hover:border-white/10 focus-within:border-primary-container/50">
+                  <div className="flex items-end gap-space-sm px-space-xs">
+                    <button className="p-1.5 rounded-lg text-outline hover:text-primary hover:bg-surface-container-lowest transition-colors mb-1" title="Attach Document / Dataset" type="button">
+                      <span className="material-symbols-outlined text-[20px]">attach_file</span>
+                    </button>
+                    
+                    <textarea
+                      ref={textareaRef}
+                      rows={1}
+                      value={message}
+                      onChange={handleTextareaChange}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Direct your next inquiry, request simulation code, or query cross-citations..."
+                      disabled={loading}
+                      className="flex-1 bg-transparent text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none py-2 resize-none max-h-32 disabled:opacity-50"
+                    />
+                    
+                    <div className="flex items-center gap-space-xs mb-1">
+                      {/* Deep Web Toggle */}
+                      <button className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg bg-secondary-container/40 text-secondary hover:bg-secondary-container/60 transition-all font-label-sm text-label-sm" type="button">
+                        <span className="material-symbols-outlined text-[15px]">radar</span>
+                        <span className="hidden md:inline">Deep Web</span>
+                      </button>
+                      
+                      {/* Send Button */}
+                      <button
+                        onClick={handleSend}
+                        disabled={!message.trim() || loading}
+                        className={`flex items-center gap-1.5 px-space-md py-2 rounded-xl font-title-md text-title-md transition-all ${
+                          message.trim() && !loading
+                            ? "bg-primary text-on-primary hover:shadow-[0_0_20px_rgba(192,193,255,0.45)] cursor-pointer active:scale-95"
+                            : "bg-surface-container-highest text-outline cursor-not-allowed opacity-50"
+                        }`}
+                      >
+                        {loading ? (
+                          <>
+                            <span className="w-1.5 h-1.5 rounded-full bg-current typing-dot"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-current typing-dot"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-current typing-dot"></span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="hidden sm:inline">Investigate</span>
+                            <span className="material-symbols-outlined text-[18px]">arrow_upward</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {/* Footer hint */}
-              <div className="flex items-center justify-between px-1 pt-1 text-[10px] text-on-surface-variant/50">
-                <span>Crawl: Semantic Scholar · ArXiv · Web</span>
-                <span>Shift+Enter for newline</span>
-              </div>
             </div>
+
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
